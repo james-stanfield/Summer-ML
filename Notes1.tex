@@ -1,8 +1,14 @@
-\documentclass[12pt]{article}
-\usepackage[margin = 0.75in]{geometry}
-\usepackage{amsfonts,amsmath,amssymb}
+\documentclass[14pt, twocolumn]{article}
+\usepackage{standalone}
+\usepackage{amsmath,amsfonts,amssymb,mathrsfs,commath}
+\usepackage{xcolor}{}
+\usepackage{latexsym}
+\usepackage{mathtools}
+\usepackage{preview}
+\usepackage[margin = 1in]{geometry}
 \usepackage[none]{hyphenat}
-\usepackage{fancyhdr}
+\usepackage[]{fancyhdr}
+
 
 \pagestyle{fancy}
 \fancyhead{}
@@ -15,6 +21,13 @@
 
 
 \newcommand{\kd}[2]{\delta_{#1#2}}
+\newcommand{\opsubset}{\overset{\circ}{\subset}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\me}{\mathellipsis}
+\newcommand{\intr}{\textrm{Int }}
+\newcommand{\pder}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\cv}[1]{\pder{}{x^#1}}
+\newcommand{\id}[1]{\textrm{Id}_{#1}}
 
 \begin{document}
 
@@ -26,8 +39,131 @@
 
 	\section*{Overview}
 
-	\section*{19/11/2018 Tensors:}
-	Let $V$ be a finite dimensional vector space with basis $\{e_i\}_{i=1}^n$ and $V^*$ be it's dual ($V^* = L(V,\mathbb{F})$) with basis $\{e^i\}_{i=1}^n$ defined such that $e^ie_j = \kd{i}{j}$
+	\section*{Smooth Manifolds}
+
+	19/11/2018. Notes from Lee: Intro to smooth manifolds \\
+
+	A topological space $M$ is a topological manifold of dimension $n$ if:\\
+	$\bullet$ $M$ is hausdorff\\
+	$\bullet$ $M$ is second countable\\
+	$\bullet$ $\forall p \in M \ \exists U$ a neighbourhood of $p$, $V \opsubset \R^n$ and a homeomorphism $\psi:U \to V$\\
+
+	$(U , \psi)$ is the coordinate pair, with $U$ the coordinate neighbourhood and $\psi$ the (local) coordinate map. If $\psi(p) = 0$ the chart is centred at $p$. We can construct from a chart that contains $p$, a new chart centred at $p$ by simply subtracting $\psi(p)$. \\
+
+	$\psi(p) = (x^1(p) , \mathellipsis , x^n(p))$ where $(x^1,\mathellipsis,x^n)$ are the local coordinates on $U$.\\
+
+	If $M$ is a topological manifold:\\
+
+	(a) $M$ is locally path connected\\
+	(b) $M$ is connected $\iff$ it is bath connected \\
+	(c) the components of $M$ are the same as it's path components\\
+	(d) $M$ has at most countably many components, each of which is a subset of $M$ and a connected topological manifold \\
+
+	Smooth Manifolds:\\
+	We now add a smooth structure that enables calculus.\\
+	Note $f: U \subset \R^n \to V \subset \R^m$ is smooth if the partial derivatives of all orders of every component exist.\\
+
+	Let $M$ be a topological manifold. Let $(U,\phi), (V,\psi)$ are be two charts. If $U \cap V \neq \emptyset$, the composite map $\psi \circ \phi^{-1} : \phi(U \cap V) \to \psi(U \cap V)$ is the transition map from $\phi$ to $\psi$. The charts are said to be smoothly compatible if either $U \cap V = \emptyset$ or the transition map $\psi \circ \phi^{-1}$ is a diffeomorphism (Where smoothness is interpreted in the usual sense).\\
+
+	An \textit{atlas} is a collection of charts whose domains cover $M$. An atlas $\mathcal{A}$ is a smooth atlas if every pair of charts is smoothly compatible. Equivalently if for every pair of charts $\psi$ , $\phi$, $\psi \circ \phi^{-1}$ is smooth then the atlas a smooth atlas. $\mathcal{A}$ is maximal if it is not contained in any other smooth atlas.\\
+
+	A \textit{smooth structure} on a topological manifold $M$ is a maximal smooth atlas. A smooth manifold is a pair $(M,\mathcal{A})$. Note it is possible to choose multiple smooth structures not compatible with each other for the same manifold.\\
+
+	Once we choose a chart $(U,\phi)$ on $M$, the coordinate map $\phi : U \to V$ can be thought of as an identification between  $U$ and $V$. We can then represent a point by it's coordinates $(x^1 ,\mathellipsis , x^n) = \phi(p)$ and think of the tuple as being the point itself. $p = (x^1 ,\mathellipsis , x^n)$ in local coordinates. We can also think of the map as being the identity map to simplify notation. e.g. $p = (x,y)$ or $p = (r,\theta)$ \\
+
+	Einstein summation convention:
+	We write $\sum_i x^i E_i = x^iE_i$ for example. Basis vectors are writien with lower indicies and components are written with upper indicies.\\
+
+	Smooth manifold examples:\\
+	$\bullet$ The zero manifold (countable discrete space).\\
+	$\bullet \ \R^n$\\
+	$\bullet$ finite dimensional vector spaces\\
+	$\bullet \ m \times n$ matricies, $M(m \times n, \R)$ In the case of square matricies simply $M(n,\R)$ \\
+	$\bullet$ open sub-manifolds. Let $(M,\mathcal{A})$ be a smooth manifold. 
+	\\If $U \opsubset M$ then take $\mathcal{A}_U = \{ (V,\phi) \in \mathcal{A} : V \subset U\}$\\
+	$\bullet \ GL(n,\R)$ i.e. matricies with determinant non-zero. Open subset of set of matricies so clearly a smooth manifold.\\
+	$\bullet$ Matricies of maximal rank $M_m(m\times n,\R)$\\
+	$\bullet \ \mathbb{S}^n$\\
+	$\bullet \ \R \mathbb{P}^n$ Real projective plane\\
+	$\bullet$ if $M_1 , \mathellipsis , M_k$ are smooth manifolds of dimensions $n_1 , \mathellipsis , n_k$ Then $M_1 \times \mathellipsis \times M_n$ is a smooth manifold with charts of the form $(U_1 \times \mathellipsis \times U_k , \phi_1 \times \mathellipsis \times \phi_k)$\\
+	$\bullet$ Grassman Manifolds (important). Let $V$ be an n-dimensional real vector space. If $0 \leq k \leq n$, $G_k(V)$ is the set of all k-dimensional linear subspaces of V.\\
+
+	Need to generalise to manifolds with boundary. We use the closed n-dimensional upper half plane, $\mathbb{H}^n = \{(x^1,\me, x^n) \in \R^n : x^n \geq 0\}$. $\intr\mathbb{H}^n$ and $\partial \mathbb{H}^n$ are the interior and boundaries respectively.\\
+
+	Smooth maps/functions:
+
+	If $M$ is a smooth manifold, $f : M \to \R^k$ is said to be \textit{smooth} if $\forall p \in M \exists (U,\phi)$ for $M$ whose domain contains $p$ such that $f \circ \phi^{-1}$ is smooth on $V = \phi(U) \subset \R^n$. $f \circ \phi^{-1}$ is the \textit{coordinate represention} of f.
+	Denote the set of smooth functions $f : M \to \R$ as $C^\infty(M)$. This is a vector space.\\
+
+	Further, if $M , N$ are two smooth manifolds. $F : M \to N$ is a \textit{smooth map} if $\forall p \in M \exists (U,\phi)$ containing $p$ and $(V,\psi)$ containing $F(p)$ such that $F(U) \subset V$ and $\psi \circ F \circ \phi^{-1} : \phi(U) \to \psi(V)$ is smooth. $\hat{F} = \psi \circ F \circ \phi^{-1}$ is the \textit{coordinate representation} of $F$ with respect to the the given coordinates.\\
+
+	Diffeomorphisms:
+	$F : M \to N$ is a \textit{diffeomorphism} if it is a smooth, bijective map with a smooth inverse. $M$ is diffeomorphic to $N$ sometimes written $M \approx N$.\\
+
+	$F: M\to N$ is a \textit{local diffeomorphism} if $\forall p \in M \exists$ a neighbourhood $U$ such that $F(U)$ is open in $N$ and $F|_U : U \to F(U)$ is a diffeomorphism. Clearly every local diffeomorphism is an open map. Analogous to topological spaces being identified by homeomorphisms.\\
+
+	Interesting: If $\mathcal{A}_1$ and $\mathcal{A}_2$ are two smooth structures on $\R$, then $\exists$ a diffeomorphism $F:(\R,\mathcal{A}_1) \to (\R,\mathcal{A}_2)$. More generally, every topological manifold of dimension less than or equal to 3 has a smooth structure unique up to diffeomorphism. Higher dimensions the question remains unanswered. For $\R^n$, as long as $n \neq 4$, $\R^n$ has a unique smooth structure up to diffeomorphism. However $\R^4$ has uncountably many smooth structures none of which are diffeomorphic to each other(lol wtf).\\
+
+
+	Lie groups:\\
+	This is a smooth manifold $G$ that is also a group under the multiplication map $m : G \times G \to G$ such that $m(g,h) = gh$ and $i(g) = g^{-1}$ (inversion) are smooth.\\
+	Skipped the rest of this chapter, may come back\\
+
+	Tangent Vectors:\\
+	If $p$ is a point of $M$, a linear map $X:C^\infty(M) \to \R$ is called a \textit{derivation} at $p$ if:
+	$$X(fg) = f(p)Xg + g(p)Xf$$
+	$\forall f,g \in C^\infty(M)$. The set of all derivations at $p$ is a vector space called the \textit{tangent space} to $M$ at $p$ denoted by $T_pM$.If $M = \R^n$ this space is isomorphic to the geometric tangent space $\R^n_a = \{(a,v) : v\in \R^n\}$. Can thus visualise tangent vectors as arrows tangent to M whose base points are attatched to M.\\
+
+	For any $a \in \R^n$ the $n$-derivations
+	$$\pder{}{x^i}\Big|_a$$
+	given by 
+	$$\pder{}{x^i}\Big|_a f = \pder{f}{x^i}(a)$$
+	form a basis for $T_a(\R^n)$
+
+	If $M , N$ are smooth manifolds and $F:M \to N$ a smooth map, for each $p \in M$ define a map $F_*:T_pM \to T_{F(p)}N$ called the \textit{pushforward} by:
+	$$F_*X(f) = X(f \circ F)$$
+	if $f \in C^\infty(N)$ then $f\circ F \in C^\infty(M)$\\
+	Some properties $F:M \to N, G:N \to P$ are smooth maps:\\
+	(a) $F_* : T_pM \to T_{F(P)}N$ is linear.\\
+	(b) $(G \circ F)_* = G_* \circ F_* : T_pM \to T_{G\circ F(p)}P$\\
+	(c) $(\id{M})_* = \id{T_pM} :T_pM \to T_pM$\\
+	(d) If $F$ is a diffeomorphism, then $F_*$ is an isomorphism.\\
+
+	If $p \in M$ and $X \in T_pM$, and $f,g$ are smooth functions on $M$ that agree on some neighborhood of $p$ then $Xf = Xg$.\\
+
+	If $(U,\phi)$ is a smooth coordinate chart on $M$, $\phi$ is a diffeomorphism from $U$ to $V \opsubset \R^n$. $\phi_* : T_pM \to T_{\phi(p)}\R^n$ is an isomorphism. Since this has a basis as above, the pushforward of this basis under $\phi^{-1}_*$ form a basis for $T_pM$. We collapse the notation thusly:
+
+	$$\pder{}{x^i}\Bigg|_p = (\phi^{-1})_* \pder{}{x^i} \Bigg|_{\phi(p)}$$
+	This acts on a smooth function $f: U \to \R$ by:
+	$$\pder{}{x^i}\Bigg|_p f = \pder{\hat{f}}{x^i}(\hat{p})$$
+	Which is the derivative of the coordinate representation of $g$ at the coordinate representation of $p$. Such vectors are called the coordinate vectors at $p$ asssociated with the given coordiante system. In $\R^n$ these correspond exactly to the vetors $e_i$ under the isomorphism $T_a\R^n \leftrightarrow \R_a^n$.\\
+
+	The coordinate vectors form a basis for $T_pM$\\
+	$\forall X \in T_pM, X = X^i \cv{i}\big|_p$.\\
+	$X^j = (X^i \cv{i})(x^j) = X^j$
+
+	$F_*$ is represented in terms of the coordinate bases by the jacobian matrix of the coordinated representative of $F.$\\
+
+	21/11/2018:\\
+	Adding a metric:\\
+
+	\section*{Main paper notes / questions:}
+
+	
+
+
+
+	
+
 
 	\section*{Defintitions/Glossary:}
+
+	%Quotient Space: Let $(X,\tau_X)$ be a topological space and let $\equiv$ be an equivalence relation on X. The quotient space $Y = X / \equiv$ is defined by the set of equivalences classes of elements of $X$:
+
+	%$$Y = \{\{v \in X : v \equiv x\} : x \in X\}$$
+	%With the toplogy:
+	%$$
+	
+
+
 \end{document}
